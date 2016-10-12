@@ -74,7 +74,7 @@ artifacts {
   archives sourcesJar
 }
 
-signing {
-  sign configurations.archives
-}
+//signing {
+//  sign configurations.archives
+//}
 
