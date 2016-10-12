@@ -1,9 +1,5 @@
 package org.yaoyao.toggl4j.entity;
 
-/**
- * @author Michal
- * @create 2016-10-09 22:13
- */
 public class ProjectUser {
   private long id;
   private long pid;

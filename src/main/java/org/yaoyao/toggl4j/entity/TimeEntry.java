@@ -1,9 +1,5 @@
 package org.yaoyao.toggl4j.entity;
 
-/**
- * @author Michal
- * @create 2016-10-10 20:39
- */
 public class TimeEntry {
   // TODO: 2016/10/10 at type? -> string or time?
   private String description;

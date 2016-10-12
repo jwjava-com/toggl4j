@@ -1,9 +1,5 @@
 package org.yaoyao.toggl4j.entity;
 
-/**
- * @author Michal
- * @create 2016-10-10 20:32
- */
 public class Task {
   private String name;
   private long pid;

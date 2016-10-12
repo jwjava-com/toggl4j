@@ -1,9 +1,5 @@
 package org.yaoyao.toggl4j.entity;
 
-/**
- * @author Michal
- * @create 2016-10-10 20:45
- */
 public class WorkspaceUser {
   private long id;
   private long uid;

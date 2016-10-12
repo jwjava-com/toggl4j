@@ -2,10 +2,6 @@ package org.yaoyao.toggl4j.entity;
 
 import java.util.Objects;
 
-/**
- * @author Michal
- * @create 2016-10-09 21:58
- */
 public class Client {
   private long id;
   private long wid;

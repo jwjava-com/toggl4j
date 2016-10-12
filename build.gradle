@@ -1,4 +1,4 @@
-group 'org.yaoyao.3rd'
+group 'com.github.michalyao'
 version '0.1.0-SNAPSHOT'
 
 apply plugin: 'java'

@@ -3,10 +3,6 @@ package org.yaoyao.toggl4j.entity;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * @author Michal
- * @create 2016-10-09 21:46
- */
 public class User {
   private String api_token;
   private int default_wid;

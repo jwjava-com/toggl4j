@@ -2,10 +2,6 @@ package org.yaoyao.toggl4j.entity;
 
 import static javafx.scene.input.KeyCode.R;
 
-/**
- * @author Michal
- * @create 2016-10-09 22:17
- */
 public class Project {
   private String name;
   private long wid;

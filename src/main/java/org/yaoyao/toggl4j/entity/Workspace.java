@@ -1,9 +1,5 @@
 package org.yaoyao.toggl4j.entity;
 
-/**
- * @author Michal
- * @create 2016-10-10 20:46
- */
 public class Workspace {
   private String name;
   private boolean premium;

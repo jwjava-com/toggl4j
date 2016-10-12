@@ -4,10 +4,6 @@ import java.util.List;
 
 import static com.sun.jmx.snmp.EnumRowStatus.active;
 
-/**
- * @author Michal
- * @create 2016-10-09 22:07
- */
 public class Dashboard {
   private List<ActiveUser> most_active_user;
   private List<Activity> activity;

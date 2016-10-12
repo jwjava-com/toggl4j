@@ -2,10 +2,6 @@ package org.yaoyao.toggl4j.entity;
 
 import java.util.Objects;
 
-/**
- * @author Michal
- * @create 2016-10-09 21:54
- */
 public class Blog {
   private String title;
   private String url;
