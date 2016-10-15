@@ -1,8 +1,6 @@
 package org.yaoyao.toggl4j.client;
 
-import org.yaoyao.toggl4j.common.OpenAPI;
 import org.yaoyao.toggl4j.common.OpenAPI.HttpMethod;
-import org.yaoyao.toggl4j.common.ParamAttr;
 
 import java.util.List;
 

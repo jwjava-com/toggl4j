@@ -12,14 +12,17 @@ public @interface OpenAPI {
   String resultJsonKey() default "";
   HttpMethod httpMethod();
 
-  public static enum HttpMethod {
-    POST,
-    GET,
-    PUT,
-    DELETE;
-
-    private HttpMethod() {
-
+  enum HttpMethod {
+    POST("POST"),
+    GET("GET"),
+    PUT("PUT"),
+    DELETE("DELETE");
+    private String name;
+    public String getName() {
+      return name;
+    }
+    HttpMethod (String name) {
+      this.name = name;
     }
   }
 

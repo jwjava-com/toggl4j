@@ -5,8 +5,6 @@ import java.util.Map;
 public class RequestData {
   private ApiAttr apiAttr;
   private String fullUrl;
-  private String requestId;
-  private String finalPostFileKey;
   private Map<String, Object> postObj;
   private String apiInfo;
 
@@ -28,23 +26,6 @@ public class RequestData {
   public void setFullUrl(String fullUrl) {
     this.fullUrl = fullUrl;
   }
-
-  public String getRequestId() {
-    return this.requestId;
-  }
-
-  public void setRequestId(String requestId) {
-    this.requestId = requestId;
-  }
-
-  public String getFinalPostFileKey() {
-    return this.finalPostFileKey;
-  }
-
-  public void setFinalPostFileKey(String finalPostFileKey) {
-    this.finalPostFileKey = finalPostFileKey;
-  }
-
 
   public Map<String, Object> getPostObj() {
     return this.postObj;
