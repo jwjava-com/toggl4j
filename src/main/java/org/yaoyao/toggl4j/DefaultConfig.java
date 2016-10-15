@@ -6,8 +6,8 @@ import java.util.Objects;
 
 /**
  * Default config for the project. Include these props:
- * apiDomain --> https://www.toggl.com/api/v8
- * globalHttpConfig --> default config for the <code>DefaultAsyncHttpConfig.Builder</code>
+ * apiDomain:  https://www.toggl.com/api/v8
+ * globalHttpConfig: default config for the <code>DefaultAsyncHttpConfig.Builder</code>
  * to build the client. props as show below:
  *      requestTimeout = 6000;
  *      readTimeout = 3000;
