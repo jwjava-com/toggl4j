@@ -39,8 +39,8 @@ public class AsyncHttpInvoker implements HttpInvoker {
     Map<String, Object> postObj = requestData.getPostObj();
     OpenAPI.HttpMethod httpMethod = apiAttr.getHttpMethod();
     // build
-    Request request = buildRequest(httpMethod, fullUrl, postObj).get();
-    this.asyncHttpClient.executeRequest(request)
+    Optional<Request> request = buildRequest(httpMethod, fullUrl, postObj);
+    this.asyncHttpClient.executeRequest(request.isPresent() ? request.get() : null)
                         .toCompletableFuture()
                         .exceptionally(t -> null) // TODO: 2016/10/15 exception handler
                         .thenApply(response -> null) // TODO: 2016/10/15 response handler

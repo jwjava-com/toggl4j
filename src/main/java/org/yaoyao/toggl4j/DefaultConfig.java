@@ -15,7 +15,7 @@ import java.util.Objects;
  *      connectTimeout = 5000;
  * emh... nothing matters. config it as you like use the <code>customHttpConfig</code>.
  * <strong>user</strong> and <strong>password</strong> must be set to init the defaultConfig so that
- * you get the authorized.
+ * you get authorized.
  */
 public class DefaultConfig {
   // TODO: 2016/10/15 Global authentication? use Oauth Object or something else？
