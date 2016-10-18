@@ -1,17 +1,17 @@
 package org.yaoyao.toggl4j.client;
 
-import java.util.Map;
-
 public class ApiResult {
   private int code;
-  private String msg;
+  private Throwable throwable;
+  private String jsonBody;
 
   public ApiResult() {
   }
 
-  public ApiResult(int code, String msg) {
+  public ApiResult(int code, Throwable throwable, String jsonBody) {
     this.code = code;
-    this.msg = msg;
+    this.throwable = throwable;
+    this.jsonBody = jsonBody;
   }
 
   public int getCode() {
@@ -22,11 +22,19 @@ public class ApiResult {
     this.code = code;
   }
 
-  public String getMsg() {
-    return msg;
+  public Throwable getThrowable() {
+    return throwable;
   }
 
-  public void setMsg(String msg) {
-    this.msg = msg;
+  public void setThrowable(Throwable throwable) {
+    this.throwable = throwable;
+  }
+
+  public String getJsonBody() {
+    return jsonBody;
+  }
+
+  public void setJsonBody(String  jsonBody) {
+    this.jsonBody = jsonBody;
   }
 }
