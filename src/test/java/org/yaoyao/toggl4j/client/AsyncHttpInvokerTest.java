@@ -7,7 +7,6 @@ import org.yaoyao.toggl4j.common.OpenAPI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 
 
 public class AsyncHttpInvokerTest {
