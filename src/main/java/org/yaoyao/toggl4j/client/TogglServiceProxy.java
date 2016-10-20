@@ -71,7 +71,7 @@ public class TogglServiceProxy implements InvocationHandler {
         requestData.setFullUrl(fullUrl);
         requestData.setApiAttr(apiAttr);
         requestData.setApiInfo(api);
-        requestData.setPostObj(jsonObject);
+        requestData.setPostObj(null);
 
       }
       break;
