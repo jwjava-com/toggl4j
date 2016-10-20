@@ -12,10 +12,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Stream;
 
-import static org.yaoyao.toggl4j.client.ApiAttr.*;
 import static org.yaoyao.toggl4j.client.ApiAttr.ApiParam;
+import static org.yaoyao.toggl4j.client.ApiAttr.ReturnClass;
 
 /**
  * httpInvoker proxy.
@@ -38,6 +37,45 @@ public class TogglServiceProxy implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    String fullUrl = "";
+    String api = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+    int httpCode = 0;
+    String responseJson = "";
+    OpenAPI openAPI = method.getAnnotation(OpenAPI.class);
+    if (openAPI == null) {
+      throw new ServiceInitException("Service init failed... [" + api
+              + "] need OpenAPI annotation");
+    }
+    if (isEmpty(openAPI.uriPath())) {
+      throw new ServiceInitException("Service init failed... [" +  api
+              + "] need uriPath");
+    }
+    ApiAttr apiAttr = apiAttrMap.get(openAPI.uriPath());
+    if (apiAttr == null) {
+      throw new ServiceInitException("Service init failed... [" +  openAPI.uriPath()
+              + "] init failed");
+    }
+    if (apiAttr.getApiParams().size() != args.length) {
+      throw new ServiceInitException("Service init failed... [" + api
+              + "] param size does not fit");
+    }
+
+    StringBuilder urlParam = new StringBuilder("?");
+    int urlParamNum = 0;
+    int argIndex = 0;
+    Object jsonObject = null;
+    while (true) {
+      if (argIndex >= apiAttr.getApiParams().size()) {
+        fullUrl = urlParam.insert(0, apiAttr.getUrl()).toString();
+        RequestData requestData = new RequestData();
+        requestData.setFullUrl(fullUrl);
+        requestData.setApiAttr(apiAttr);
+        requestData.setApiInfo(api);
+        requestData.setPostObj(jsonObject);
+
+      }
+      break;
+    }
     return null;
   }
 
