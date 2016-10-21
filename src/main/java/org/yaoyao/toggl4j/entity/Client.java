@@ -6,7 +6,7 @@ public class Client {
   private long id;
   private long wid;
   private String name;
-  private String at;
+  private String at; // TODO: 2016/10/21 fixme type -> Instant or Java Time 
   private String notes;
 
   public Client() {
