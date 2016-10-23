@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.yaoyao.toggl4j.client.ApiAttr.ApiParam;
 import static org.yaoyao.toggl4j.client.ApiAttr.ReturnClass;
@@ -140,7 +141,7 @@ public class TogglServiceProxy implements InvocationHandler {
     List<ApiParam> apiParams = new ArrayList();
     int emptyParamKeyTotal = 0;
 
-    for (int i = 0; i < method.getParameterAnnotations().length; i++) {
+    for (int i = 0; i < method.getParameterAnnotations().length; ++i) {
       Annotation[] paramAnnotations = method.getParameterAnnotations()[i];
       if (paramAnnotations.length == 0) {
         throw new ServiceInitException(
@@ -219,8 +220,9 @@ public class TogglServiceProxy implements InvocationHandler {
               + clazz.getCanonicalName() + "." + method.getName()  +"]" + openAPI.uriPath() + "duplicated in OpenAPI annotation");
         }
         this.initFullUrl(apiAttr, method, openAPI, apiDomain);
-        this.initApiParams(apiAttr, method, clazz);
+        apiAttr.setHttpMethod(openAPI.httpMethod());
         this.initReturnClass(apiAttr, method, clazz);
+        this.initApiParams(apiAttr, method, clazz);
         this.apiAttrMap.put(openAPI.uriPath(), apiAttr);
       }
 
