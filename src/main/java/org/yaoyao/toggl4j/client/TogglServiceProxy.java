@@ -1,5 +1,7 @@
 package org.yaoyao.toggl4j.client;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.yaoyao.toggl4j.DefaultConfig;
 import org.yaoyao.toggl4j.common.OpenAPI;
 import org.yaoyao.toggl4j.common.ParamAttr;
@@ -63,6 +65,7 @@ public class TogglServiceProxy implements InvocationHandler {
     StringBuilder urlParam = new StringBuilder("?");
     int urlParamNum = 0;
     int argIndex = 0;
+    final Map<String, Object> payload = new HashMap();
     Object jsonObject = null;
     while (true) {
       if (argIndex >= apiAttr.getApiParams().size()) {
@@ -71,9 +74,53 @@ public class TogglServiceProxy implements InvocationHandler {
         requestData.setFullUrl(fullUrl);
         requestData.setApiAttr(apiAttr);
         requestData.setApiInfo(api);
-        requestData.setPostObj(null);
+        requestData.setPostObj(payload);
+        ApiResult result = this.httpInvoker.execute(requestData);
+        if (result == null) {
+          throw new Exception("unknown exception happened. get in touch with yaoyao.");
+        }
+        if (result.getThrowable() != null) {
+          throw result.getThrowable();
+        }
+        httpCode = result.getCode();
+        responseJson = result.getJsonBody();
 
+        if (httpCode != 200) {
+          // TODO: 2016/10/23 httpcode
+        }
+
+        JSONObject resultAsJson = JSON.parseObject(responseJson);
+        if (!Void.class.equals(apiAttr.getReturnClass().getClazz()) &&
+            !Void.TYPE.equals(apiAttr.getReturnClass().getClazz())) {
+          if (apiAttr.getReturnClass().isList()) {
+            return JSON.parseArray(responseJson, apiAttr.getReturnClass().getClazz());
+          } else {
+            return JSON.parseObject(responseJson, apiAttr.getReturnClass().getClazz());
+          }
+        }
       }
+
+      ApiParam params = apiAttr.getApiParams().get(argIndex);
+      Object postAll = null;
+      // build query param
+      if (params.getLocation() == Location.URL) {
+        if (args[argIndex] != null) {
+          ++urlParamNum;
+          if (urlParamNum > 1) {
+            urlParam.append("&");
+          }
+          urlParam.append(params.getKey());
+          urlParam.append("=");
+          urlParam.append(args[argIndex]);
+        }
+      } else {
+        if (isEmpty(params.getKey())) {
+          postAll = args[argIndex];
+        } else {
+         payload.put(params.getKey(), args[argIndex]);
+        }
+      }
+      ++argIndex;
       break;
     }
     return null;
