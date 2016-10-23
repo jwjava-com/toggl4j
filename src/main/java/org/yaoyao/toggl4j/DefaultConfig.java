@@ -20,6 +20,7 @@ import java.util.Objects;
 public class DefaultConfig {
   // TODO: 2016/10/15 Global authentication? use Oauth Object or something else？
   private String apiDomain = "https://www.toggl.com/api/v8";
+  private String basePackage = "org.yaoyao.toggl4j.service";
   private DefaultConfig.HttpConfig globalHttpConfig = new DefaultConfig.HttpConfig();
   private Map<String, HttpConfig> customHttpConfig;
 
@@ -43,6 +44,14 @@ public class DefaultConfig {
 
   public String getApiDomain() {
     return apiDomain;
+  }
+
+  public String getBasePackage() {
+    return basePackage;
+  }
+
+  public void setBasePackage(String basePackage) {
+    this.basePackage = basePackage;
   }
 
   public void setApiDomain(String apiDomain) {
