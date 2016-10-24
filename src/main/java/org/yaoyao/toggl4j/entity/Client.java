@@ -9,7 +9,55 @@ public class Client {
   private String at; // TODO: 2016/10/21 fixme type -> Instant or Java Time 
   private String notes;
 
+  public Client(long id, long wid, String name, String at, String notes) {
+    this.id = id;
+    this.wid = wid;
+    this.name = name;
+    this.at = at;
+    this.notes = notes;
+  }
+
   public Client() {
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public long getWid() {
+    return wid;
+  }
+
+  public void setWid(long wid) {
+    this.wid = wid;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getAt() {
+    return at;
+  }
+
+  public void setAt(String at) {
+    this.at = at;
+  }
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
 
   @Override

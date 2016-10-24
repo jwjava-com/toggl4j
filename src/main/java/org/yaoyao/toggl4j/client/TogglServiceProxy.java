@@ -7,6 +7,7 @@ import org.yaoyao.toggl4j.common.OpenAPI;
 import org.yaoyao.toggl4j.common.ParamAttr;
 import org.yaoyao.toggl4j.common.ParamAttr.Location;
 import org.yaoyao.toggl4j.common.ServiceInitException;
+import org.yaoyao.toggl4j.common.TogglServiceException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -53,7 +54,7 @@ public class TogglServiceProxy implements InvocationHandler {
       throw new ServiceInitException("Service init failed... [" +  api
               + "] need uriPath");
     }
-    ApiAttr apiAttr = apiAttrMap.get(openAPI.uriPath());
+    ApiAttr apiAttr = this.apiAttrMap.get(openAPI.uriPath());
     if (apiAttr == null) {
       throw new ServiceInitException("Service init failed... [" +  openAPI.uriPath()
               + "] init failed");
@@ -71,6 +72,7 @@ public class TogglServiceProxy implements InvocationHandler {
     while (true) {
       if (argIndex >= apiAttr.getApiParams().size()) {
         fullUrl = urlParam.insert(0, apiAttr.getUrl()).toString();
+        Object postObject = jsonObject == null ? payload : jsonObject;
         RequestData requestData = new RequestData();
         requestData.setFullUrl(fullUrl);
         requestData.setApiAttr(apiAttr);
@@ -87,7 +89,7 @@ public class TogglServiceProxy implements InvocationHandler {
         responseJson = result.getJsonBody();
 
         if (httpCode != 200) {
-          // TODO: 2016/10/23 httpcode
+          throw new TogglServiceException("error response: " + responseJson) ;
         }
 
         JSONObject resultAsJson = JSON.parseObject(responseJson);
@@ -96,13 +98,13 @@ public class TogglServiceProxy implements InvocationHandler {
           if (apiAttr.getReturnClass().isList()) {
             return JSON.parseArray(responseJson, apiAttr.getReturnClass().getClazz());
           } else {
-            return JSON.parseObject(responseJson, apiAttr.getReturnClass().getClazz());
+//            return JSON.parseObject(responseJson, apiAttr.getReturnClass().getClazz());
+            return resultAsJson;
           }
         }
       }
 
       ApiParam params = apiAttr.getApiParams().get(argIndex);
-      Object postAll = null;
       // build query param
       if (params.getLocation() == Location.URL) {
         if (args[argIndex] != null) {
@@ -116,15 +118,13 @@ public class TogglServiceProxy implements InvocationHandler {
         }
       } else {
         if (isEmpty(params.getKey())) {
-          postAll = args[argIndex];
+          jsonObject = args[argIndex];
         } else {
          payload.put(params.getKey(), args[argIndex]);
         }
       }
       ++argIndex;
-      break;
     }
-    return null;
   }
 
   // ensure apidomain ends with "/" , uri path starts with "/"

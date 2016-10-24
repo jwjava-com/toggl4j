@@ -1,10 +1,13 @@
 package org.yaoyao.toggl4j;
 
+import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.yaoyao.toggl4j.client.ApiAttr;
 import org.yaoyao.toggl4j.client.AsyncHttpInvoker;
 import org.yaoyao.toggl4j.client.RequestData;
 import org.yaoyao.toggl4j.entity.Client;
+import org.yaoyao.toggl4j.entity.TogglResponse;
 import org.yaoyao.toggl4j.service.ClientService;
 
 import java.time.Instant;
@@ -22,9 +25,16 @@ public class ServiceProxyFactoryTest {
 
   @Test
   public void newInstance() throws Exception {
-    Client client =
-        ServiceProxyFactory.newInstance(defaultConfig).getTogglService(ClientService.class).create(1, 123, "test", Instant.now().toString());
+    Client client = new Client();
+    client.setName("hello");
+
+    JSONObject response  =
+        ServiceProxyFactory.newInstance(defaultConfig).getTogglService(ClientService.class).create(client);
     System.out.println(client);
   }
 
+  @Test
+  public void testDate() {
+    System.out.println(Instant.now());
+  }
 }
