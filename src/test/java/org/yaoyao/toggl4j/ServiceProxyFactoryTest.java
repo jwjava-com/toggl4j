@@ -12,6 +12,7 @@ import org.yaoyao.toggl4j.service.ClientService;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -27,10 +28,11 @@ public class ServiceProxyFactoryTest {
   public void newInstance() throws Exception {
     Client client = new Client();
     client.setName("hello");
+    client.setWid(1676406);
 
-    JSONObject response  =
-        ServiceProxyFactory.newInstance(defaultConfig).getTogglService(ClientService.class).create(client);
-    System.out.println(client);
+    List<Client> response  =
+        ServiceProxyFactory.newInstance(defaultConfig).getTogglService(ClientService.class).list();
+    System.out.println(response);
   }
 
   @Test

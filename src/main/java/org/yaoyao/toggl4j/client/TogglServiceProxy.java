@@ -54,17 +54,17 @@ public class TogglServiceProxy implements InvocationHandler {
       throw new ServiceInitException("Service init failed... [" +  api
               + "] need uriPath");
     }
-    ApiAttr apiAttr = this.apiAttrMap.get(openAPI.uriPath());
+    ApiAttr apiAttr = this.apiAttrMap.get(openAPI.uriPath() + openAPI.httpMethod());
     if (apiAttr == null) {
       throw new ServiceInitException("Service init failed... [" +  openAPI.uriPath()
               + "] init failed");
     }
-    if (apiAttr.getApiParams().size() != args.length) {
+    if (args !=null && apiAttr.getApiParams().size() != args.length) {
       throw new ServiceInitException("Service init failed... [" + api
               + "] param size does not fit");
     }
 
-    StringBuilder urlParam = new StringBuilder("?");
+    StringBuilder urlParam = new StringBuilder();
     int urlParamNum = 0;
     int argIndex = 0;
     final Map<String, Object> payload = new HashMap();
@@ -77,7 +77,7 @@ public class TogglServiceProxy implements InvocationHandler {
         requestData.setFullUrl(fullUrl);
         requestData.setApiAttr(apiAttr);
         requestData.setApiInfo(api);
-        requestData.setPostObj(payload);
+        requestData.setPostObj(postObject);
         ApiResult result = this.httpInvoker.execute(requestData);
         if (result == null) {
           throw new Exception("unknown exception happened. get in touch with yaoyao.");
@@ -92,14 +92,14 @@ public class TogglServiceProxy implements InvocationHandler {
           throw new TogglServiceException("error response: " + responseJson) ;
         }
 
-        JSONObject resultAsJson = JSON.parseObject(responseJson);
+
         if (!Void.class.equals(apiAttr.getReturnClass().getClazz()) &&
             !Void.TYPE.equals(apiAttr.getReturnClass().getClazz())) {
           if (apiAttr.getReturnClass().isList()) {
             return JSON.parseArray(responseJson, apiAttr.getReturnClass().getClazz());
           } else {
 //            return JSON.parseObject(responseJson, apiAttr.getReturnClass().getClazz());
-            return resultAsJson;
+            return JSON.parseObject(responseJson);
           }
         }
       }
@@ -109,6 +109,9 @@ public class TogglServiceProxy implements InvocationHandler {
       if (params.getLocation() == Location.URL) {
         if (args[argIndex] != null) {
           ++urlParamNum;
+          if (urlParamNum == 0) {
+            urlParam.append("?");
+          }
           if (urlParamNum > 1) {
             urlParam.append("&");
           }
@@ -217,13 +220,13 @@ public class TogglServiceProxy implements InvocationHandler {
         OpenAPI openAPI = method.getAnnotation(OpenAPI.class);
         if (this.apiAttrMap.get(openAPI.uriPath()) != null) {
           throw new ServiceInitException("Service init failed... ["
-              + clazz.getCanonicalName() + "." + method.getName()  +"]" + openAPI.uriPath() + "duplicated in OpenAPI annotation");
+              + clazz.getCanonicalName() + "." + method.getName()  +"]" + openAPI.uriPath() + " duplicated in OpenAPI annotation");
         }
         this.initFullUrl(apiAttr, method, openAPI, apiDomain);
         apiAttr.setHttpMethod(openAPI.httpMethod());
         this.initReturnClass(apiAttr, method, clazz);
         this.initApiParams(apiAttr, method, clazz);
-        this.apiAttrMap.put(openAPI.uriPath(), apiAttr);
+        this.apiAttrMap.put(openAPI.uriPath() + openAPI.httpMethod(), apiAttr);
       }
 
 

@@ -7,14 +7,12 @@ public class Client {
   private long wid;
   private String name;
   private String at; // TODO: 2016/10/21 fixme type -> Instant or Java Time 
-  private String notes;
 
-  public Client(long id, long wid, String name, String at, String notes) {
+  public Client(long id, long wid, String name, String at) {
     this.id = id;
     this.wid = wid;
     this.name = name;
     this.at = at;
-    this.notes = notes;
   }
 
   public Client() {
@@ -52,13 +50,6 @@ public class Client {
     this.at = at;
   }
 
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
 
   @Override
   public boolean equals(Object o) {
@@ -70,13 +61,12 @@ public class Client {
     return id == client.id &&
         wid == client.wid &&
         Objects.equals(name, client.name) &&
-        Objects.equals(at, client.at) &&
-        Objects.equals(notes, client.notes);
+        Objects.equals(at, client.at);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, wid, name, at, notes);
+    return Objects.hash(id, wid, name, at);
   }
 
   @Override
@@ -86,7 +76,6 @@ public class Client {
         ", wid=" + wid +
         ", name='" + name + '\'' +
         ", at='" + at + '\'' +
-        ", notes='" + notes + '\'' +
         '}';
   }
 }

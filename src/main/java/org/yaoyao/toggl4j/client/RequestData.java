@@ -1,11 +1,12 @@
 package org.yaoyao.toggl4j.client;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class RequestData {
   private ApiAttr apiAttr;
   private String fullUrl;
-  private Map<String, Object> postObj;
+  private Object postObj;
   private String apiInfo;
 
   public RequestData() {
@@ -27,11 +28,11 @@ public class RequestData {
     this.fullUrl = fullUrl;
   }
 
-  public Map<String, Object> getPostObj() {
+  public Object getPostObj() {
     return this.postObj;
   }
 
-  public void setPostObj(Map<String, Object> postObj) {
+  public void setPostObj(Object postObj) {
     this.postObj = postObj;
   }
 

@@ -7,12 +7,15 @@ import org.yaoyao.toggl4j.common.ParamAttr;
 import org.yaoyao.toggl4j.entity.Client;
 import org.yaoyao.toggl4j.entity.TogglResponse;
 
+import java.util.List;
+
 @ApiService
 public interface ClientService {
 
   @OpenAPI(uriPath = "/clients", httpMethod = OpenAPI.HttpMethod.POST)
   JSONObject create(@ParamAttr(location = ParamAttr.Location.PAYLOAD, paramKey = "") Client client);
 
-
+  @OpenAPI(uriPath = "/clients", httpMethod = OpenAPI.HttpMethod.GET)
+  List<Client> list();
 
 }

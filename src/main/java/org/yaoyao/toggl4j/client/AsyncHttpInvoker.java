@@ -46,7 +46,7 @@ public class AsyncHttpInvoker implements HttpInvoker {
     final ApiResult apiResult = new ApiResult();
     ApiAttr apiAttr = requestData.getApiAttr();
     String fullUrl = requestData.getFullUrl();
-    Map<String, Object> postObj = requestData.getPostObj();
+    Object postObj = requestData.getPostObj();
     OpenAPI.HttpMethod httpMethod = apiAttr.getHttpMethod();
     // build
     Optional<Request> request = buildRequest(httpMethod, fullUrl, postObj);
@@ -65,8 +65,9 @@ public class AsyncHttpInvoker implements HttpInvoker {
     return apiResult;
   }
 
-  private Optional<Request> buildRequest(OpenAPI.HttpMethod httpMethod, String fullUrl, Map<String, Object> postObj) {
+  private Optional<Request> buildRequest(OpenAPI.HttpMethod httpMethod, String fullUrl, Object postObj) {
     RequestBuilder rqBuiler = new RequestBuilder();
+    rqBuiler.setHeader("Content-Type", "application/json");
     rqBuiler.setUrl(fullUrl);
     switch (httpMethod) {
       case POST: {
